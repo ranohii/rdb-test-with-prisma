@@ -16,7 +16,7 @@ model categories {
 }
 
 model customer_customer_demo {
-  customer_id           String                @db.Char
+  customer_id           String                @db.Uuid
   customer_type_id      String                @db.Char
   customers             customers             @relation(fields: [customer_id], references: [customer_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_customer_customer_demo_customers")
   customer_demographics customer_demographics @relation(fields: [customer_type_id], references: [customer_type_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_customer_customer_demo_customer_demographics")
@@ -31,7 +31,7 @@ model customer_demographics {
 }
 
 model customers {
-  customer_id            String                   @id(map: "pk_customers") @db.Char
+  customer_id            String                   @id(map: "pk_customers") @db.Uuid
   company_name           String                   @db.VarChar(40)
   contact_name           String?                  @db.VarChar(30)
   contact_title          String?                  @db.VarChar(30)
@@ -94,7 +94,7 @@ model order_details {
 
 model orders {
   order_id         Int             @id(map: "pk_orders") @db.SmallInt
-  customer_id      String?         @db.Char
+  customer_id      String?         @db.Uuid
   employee_id      Int?            @db.SmallInt
   order_date       DateTime?       @db.Date
   required_date    DateTime?       @db.Date
