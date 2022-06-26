@@ -5,11 +5,13 @@ services:
     container_name: postgres_container
     image: postgres
     environment:
+      POSTGRES_DB: northwind
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
+      - ./northwind.sql:/docker-entrypoint-initdb.d/northwind.sql
     ports:
       - "5432:5432"
     networks:
