@@ -58,7 +58,7 @@ model employee_territories {
 model employees {
   employee_id          Int                    @id(map: "pk_employees") @db.SmallInt
   last_name            String                 @db.VarChar(20)
-  first_name           String                 @db.VarChar(10)
+  first_name           String                 @db.VarChar(20)
   title                String?                @db.VarChar(30)
   title_of_courtesy    String?                @db.VarChar(25)
   birth_date           DateTime?              @db.Date
