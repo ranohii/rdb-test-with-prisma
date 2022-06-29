@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   console.log(`Start seeding ...`)
-  for (const index of Array.from({length: 10000}, (_, i) => i + 1)) {
+  for (let index = 0; index <= 100000; index++) {
     const customer_id = faker.datatype.uuid()
     await Promise.all([
       prisma.customers.create({

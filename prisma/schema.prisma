@@ -8,7 +8,7 @@ datasource db {
 }
 
 model categories {
-  category_id   Int        @id(map: "pk_categories") @db.SmallInt
+  category_id   Int        @id(map: "pk_categories") @db.Integer
   category_name String     @db.VarChar(15)
   description   String?
   picture       Bytes?
@@ -32,7 +32,7 @@ model customer_demographics {
 
 model customers {
   customer_id            String                   @id(map: "pk_customers") @db.Uuid
-  company_name           String                   @db.VarChar(40)
+  company_name           String                   @db.VarChar(80)
   contact_name           String?                  @db.VarChar(30)
   contact_title          String?                  @db.VarChar(30)
   address                String?                  @db.VarChar(60)
@@ -47,7 +47,7 @@ model customers {
 }
 
 model employee_territories {
-  employee_id  Int         @db.SmallInt
+  employee_id  Int         @db.Integer
   territory_id String      @db.VarChar(20)
   employees    employees   @relation(fields: [employee_id], references: [employee_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_employee_territories_employees")
   territories  territories @relation(fields: [territory_id], references: [territory_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_employee_territories_territories")
@@ -56,7 +56,7 @@ model employee_territories {
 }
 
 model employees {
-  employee_id          Int                    @id(map: "pk_employees") @db.SmallInt
+  employee_id          Int                    @id(map: "pk_employees") @db.Integer
   last_name            String                 @db.VarChar(20)
   first_name           String                 @db.VarChar(20)
   title                String?                @db.VarChar(30)
@@ -72,7 +72,7 @@ model employees {
   extension            String?                @db.VarChar(4)
   photo                Bytes?
   notes                String?
-  reports_to           Int?                   @db.SmallInt
+  reports_to           Int?                   @db.Integer
   photo_path           String?                @db.VarChar(255)
   employees            employees?             @relation("employeesToemployees_reports_to", fields: [reports_to], references: [employee_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_employees_employees")
   employee_territories employee_territories[]
@@ -81,10 +81,10 @@ model employees {
 }
 
 model order_details {
-  order_id   Int      @db.SmallInt
-  product_id Int      @db.SmallInt
+  order_id   Int      @db.Integer
+  product_id Int      @db.Integer
   unit_price Float    @db.Real
-  quantity   Int      @db.SmallInt
+  quantity   Int      @db.Integer
   discount   Float    @db.Real
   orders     orders   @relation(fields: [order_id], references: [order_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_details_orders")
   products   products @relation(fields: [product_id], references: [product_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_order_details_products")
@@ -93,13 +93,13 @@ model order_details {
 }
 
 model orders {
-  order_id         Int             @id(map: "pk_orders") @db.SmallInt
+  order_id         Int             @id(map: "pk_orders") @db.Integer
   customer_id      String?         @db.Uuid
-  employee_id      Int?            @db.SmallInt
+  employee_id      Int?            @db.Integer
   order_date       DateTime?       @db.Date
   required_date    DateTime?       @db.Date
   shipped_date     DateTime?       @db.Date
-  ship_via         Int?            @db.SmallInt
+  ship_via         Int?            @db.Integer
   freight          Float?          @db.Real
   ship_name        String?         @db.VarChar(40)
   ship_address     String?         @db.VarChar(60)
@@ -114,15 +114,15 @@ model orders {
 }
 
 model products {
-  product_id        Int             @id(map: "pk_products") @db.SmallInt
+  product_id        Int             @id(map: "pk_products") @db.Integer
   product_name      String          @db.VarChar(40)
-  supplier_id       Int?            @db.SmallInt
-  category_id       Int?            @db.SmallInt
+  supplier_id       Int?            @db.Integer
+  category_id       Int?            @db.Integer
   quantity_per_unit String?         @db.VarChar(20)
   unit_price        Float?          @db.Real
-  units_in_stock    Int?            @db.SmallInt
-  units_on_order    Int?            @db.SmallInt
-  reorder_level     Int?            @db.SmallInt
+  units_in_stock    Int?            @db.Integer
+  units_on_order    Int?            @db.Integer
+  reorder_level     Int?            @db.Integer
   discontinued      Int
   categories        categories?     @relation(fields: [category_id], references: [category_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_products_categories")
   suppliers         suppliers?      @relation(fields: [supplier_id], references: [supplier_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_products_suppliers")
@@ -130,20 +130,20 @@ model products {
 }
 
 model region {
-  region_id          Int           @id(map: "pk_region") @db.SmallInt
+  region_id          Int           @id(map: "pk_region") @db.Integer
   region_description String        @db.Char
   territories        territories[]
 }
 
 model shippers {
-  shipper_id   Int      @id(map: "pk_shippers") @db.SmallInt
-  company_name String   @db.VarChar(40)
+  shipper_id   Int      @id(map: "pk_shippers") @db.Integer
+  company_name String   @db.VarChar(80)
   phone        String?  @db.VarChar(24)
   orders       orders[]
 }
 
 model suppliers {
-  supplier_id   Int        @id(map: "pk_suppliers") @db.SmallInt
+  supplier_id   Int        @id(map: "pk_suppliers") @db.Integer
   company_name  String     @db.VarChar(40)
   contact_name  String?    @db.VarChar(30)
   contact_title String?    @db.VarChar(30)
@@ -161,13 +161,13 @@ model suppliers {
 model territories {
   territory_id          String                 @id(map: "pk_territories") @db.VarChar(20)
   territory_description String                 @db.Char
-  region_id             Int                    @db.SmallInt
+  region_id             Int                    @db.Integer
   region                region                 @relation(fields: [region_id], references: [region_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_territories_region")
   employee_territories  employee_territories[]
 }
 
 model us_states {
-  state_id     Int     @id(map: "pk_usstates") @db.SmallInt
+  state_id     Int     @id(map: "pk_usstates") @db.Integer
   state_name   String? @db.VarChar(100)
   state_abbr   String? @db.VarChar(2)
   state_region String? @db.VarChar(50)
